@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>NÉVÉ Arête · Montre d'altitude</title>
+    <meta name="description" content="Étude de cas : landing de lancement en 3D temps réel pour une montre d'alpinisme (marque fictive NÉVÉ). Three.js, TypeScript, GSAP." />
+    <meta name="theme-color" content="#eeede9" />
+    <meta property="og:title" content="NÉVÉ Arête · landing de lancement en 3D" />
+    <meta property="og:description" content="La caméra suit la lecture, les aiguilles donnent l'heure du visiteur, le fond se grave en direct." />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2316171a'/><path d='M5 24 12 11l4 6 3-4 8 11z' fill='%23eeede9'/></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="preload" href="models/arete.glb" as="fetch" crossorigin />
+    <script type="module" crossorigin src="./assets/index-DLtWHGKi.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-vuQSnK5u.css">
+  </head>
+  <body>
+    <a class="skip" href="#etude">Aller à l'étude de cas</a>
+
+    <header class="site-head">
+      <a class="brand" href="#top" aria-label="NÉVÉ, retour en haut">
+        <svg viewBox="0 0 32 20" aria-hidden="true"><path d="M1 19 10 4l5 7 4-5 12 13z" /></svg>
+        <span>NÉVÉ</span>
+      </a>
+      <nav class="site-nav" aria-label="Sections">
+        <a href="#cadran">Cadran</a>
+        <a href="#altitude">Altitude</a>
+        <a href="#fond">Gravure</a>
+        <a href="#coloris">Coloris</a>
+        <a href="#etude">Étude de cas</a>
+      </nav>
+      <div class="head-actions">
+        <button class="theme-toggle" data-theme-toggle aria-pressed="false" aria-label="Passer en thème sombre">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" /><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" /></svg>
+          <span class="theme-label">Sombre</span>
+        </button>
+        <a class="btn" href="#coloris">Précommander</a>
+      </div>
+    </header>
+
+    <section class="story" id="top" aria-label="Présentation de la montre Arête">
+      <div class="sticky">
+        <div class="viewport" id="viewport"></div>
+        <div class="loader" id="loader" role="status" aria-live="polite">
+          <p class="loader-name">Arête</p>
+          <div class="loader-bar"><i id="loader-bar"></i></div>
+        </div>
+        <p class="clock" id="clock" aria-live="off"></p>
+      </div>
+
+      <div class="chapters">
+        <article class="chapter chapter-hero" data-shot="hero">
+          <p class="kicker">NÉVÉ, instruments d'altitude · Démonstration, marque fictive</p>
+          <h1>Arête</h1>
+          <p class="lede">L'heure, l'altitude et la météo, lisibles avec des gants à 4 000 mètres.</p>
+          <div class="hero-buy">
+            <p class="price-line"><strong>389 €</strong> · livraison en mars 2027</p>
+            <a class="btn btn-lg" href="#coloris">Précommander</a>
+          </div>
+          <p class="scroll-cue">Faites défiler : la caméra suit votre lecture.</p>
+        </article>
+
+        <article class="chapter" id="cadran" data-shot="cadran">
+          <p class="num">01</p>
+          <h2>Un cadran qu'on lit sans s'arrêter</h2>
+          <p>Aiguilles larges, index luminescents, contraste maximal entre le fond noir et les repères. L'heure se lit d'un coup d'œil, même en tenant un piolet.</p>
+          <p class="aside">Les aiguilles de la montre affichent l'heure de votre appareil, à la seconde.</p>
+        </article>
+
+        <article class="chapter" id="altitude" data-shot="altitude">
+          <p class="num">02</p>
+          <h2>L'altitude au mètre près</h2>
+          <p>Le capteur barométrique mesure l'altitude de −700 à 9 000 m avec une résolution d'un mètre. La tendance météo sur douze heures prévient d'une chute de pression avant l'orage.</p>
+          <dl class="mini-specs">
+            <div><dt>Résolution</dt><dd>1 m</dd></div>
+            <div><dt>Plage</dt><dd>−700 à 9 000 m</dd></div>
+            <div><dt>Alarme orage</dt><dd>−4 hPa en 3 h</dd></div>
+          </dl>
+        </article>
+
+        <article class="chapter" data-shot="lunette">
+          <p class="num">03</p>
+          <h2>48 villes sur la lunette</h2>
+          <p>Les codes des villes gravés autour du cadran donnent l'heure d'un autre fuseau sans menu : on tourne la lunette, on lit en face de la ville.</p>
+        </article>
+
+        <article class="chapter" data-shot="bracelet">
+          <p class="num">04</p>
+          <h2>Un bracelet qu'on oublie</h2>
+          <p>Fibre de carbone tissée et élastomère, 38 grammes. Il se porte par-dessus une manche de veste et se règle d'une main.</p>
+        </article>
+
+        <article class="chapter" id="fond" data-shot="fond">
+          <p class="num">05</p>
+          <h2>Un fond gravé à votre nom</h2>
+          <p>Le fond en titane accueille une gravure laser jusqu'à 18 caractères, offerte à la précommande.</p>
+          <label class="engrave">
+            <span>Votre gravure</span>
+            <input id="engrave" maxlength="18" autocomplete="off" spellcheck="false" placeholder="NÉVÉ ARÊTE" />
+          </label>
+          <p class="aside">Tapez : le fond de la montre se grave en direct.</p>
+        </article>
+
+        <article class="chapter chapter-buy" id="coloris" data-shot="coloris">
+          <p class="num">06</p>
+          <h2>Quatre coloris</h2>
+          <div class="colorways" role="radiogroup" aria-label="Coloris" id="colorways"></div>
+          <p class="colorway-name" id="colorway-name"></p>
+          <div class="order">
+            <p class="order-price"><strong id="order-price">389 €</strong><span>TTC, gravure offerte</span></p>
+            <button class="btn btn-lg" id="order">Précommander</button>
+            <p class="order-note">Acompte de 50 € remboursable jusqu'à l'expédition. Livraison en mars 2027.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="specs-section" aria-labelledby="specs-title">
+      <h2 id="specs-title">Fiche technique</h2>
+      <dl class="specs-table">
+        <div><dt>Boîtier</dt><dd>Titane grade 2, 46 mm, épaisseur 12,4 mm</dd></div>
+        <div><dt>Verre</dt><dd>Saphir, traitement antireflet intérieur</dd></div>
+        <div><dt>Étanchéité</dt><dd>100 m</dd></div>
+        <div><dt>Fonctions</dt><dd>Altimètre, baromètre, boussole, chronographe au 1/100 s, heure universelle</dd></div>
+        <div><dt>Autonomie</dt><dd>18 mois sur pile, 3 ans en mode économie</dd></div>
+        <div><dt>Bracelet</dt><dd>Fibre de carbone et élastomère, fermoir titane</dd></div>
+        <div><dt>Poids</dt><dd>62 g avec bracelet</dd></div>
+        <div><dt>Garantie</dt><dd>5 ans, révision de l'étanchéité comprise</dd></div>
+      </dl>
+    </section>
+
+    <main class="case" id="etude">
+      <section class="case-hero">
+        <p class="kicker">Étude de cas · Landing de lancement produit</p>
+        <h2>Une page de lancement où le produit se montre pendant qu'on lit.</h2>
+        <dl class="facts">
+          <div><dt>Client</dt><dd>NÉVÉ, horloger d'altitude fictif</dd></div>
+          <div><dt>Rôle</dt><dd>Direction artistique, développement front-end 3D, rédaction</dd></div>
+          <div><dt>Stack</dt><dd>Three.js, TypeScript, GSAP, Vite</dd></div>
+          <div><dt>Livrables</dt><dd>Landing responsive, thème clair et sombre, parcours de précommande</dd></div>
+        </dl>
+        <p class="disclaimer">Projet réalisé pour démontrer une méthode de travail. La marque, les prix et les caractéristiques sont inventés, le brief est un scénario type.</p>
+      </section>
+
+      <section class="case-block">
+        <h3><span>01</span>Le brief</h3>
+        <div class="prose">
+          <p>NÉVÉ prépare le lancement de l'Arête et veut ouvrir les précommandes sans séance photo : le produit final n'existe qu'en fichier 3D. La page doit présenter les fonctions une par une, laisser choisir le coloris, et rester légère sur mobile, où arrive la majorité du trafic des réseaux sociaux.</p>
+        </div>
+      </section>
+
+      <section class="case-block">
+        <h3><span>02</span>Choix techniques</h3>
+        <div class="decisions">
+          <article><p class="fig">7,4 → 2,2 Mo</p><div><h4>Un modèle prêt pour le web</h4><p>Les textures qui portaient les logos du modèle d'origine ont été repeintes, puis la géométrie compressée avec meshopt et les textures converties en WebP, dans un script rejouable (<code>npm run model</code>).</p></div></article>
+          <article><p class="fig">1 image/s</p><div><h4>Rendu à la demande</h4><p>La scène se redessine quand le défilement déplace la caméra, quand on change de coloris, ou quand la trotteuse avance. Un visiteur qui lit sans bouger coûte une image par seconde au lieu de soixante.</p></div></article>
+          <article><p class="fig">Défilement natif</p><div><h4>Le défilement reste celui du navigateur</h4><p>Chaque chapitre correspond à un plan de caméra. La position de lecture choisit le plan, la caméra le rejoint avec un amorti léger. La molette, le trackpad et le clavier gardent leur comportement normal.</p></div></article>
+          <article><p class="fig">4 coloris</p><div><h4>Variantes glTF compilées d'avance</h4><p>Les coloris viennent des variantes de matériaux du fichier. Leurs shaders sont compilés pendant le chargement, donc un changement de coloris ne fige jamais l'image.</p></div></article>
+          <article><p class="fig">Heure réelle</p><div><h4>Des détails vivants</h4><p>Les aiguilles donnent l'heure du visiteur et la gravure du fond se dessine à chaque frappe, sur une texture générée dans le navigateur.</p></div></article>
+        </div>
+      </section>
+
+      <section class="case-block">
+        <h3><span>03</span>Mesures en direct</h3>
+        <div class="prose"><p>Relevées dans votre navigateur depuis l'ouverture de la page.</p></div>
+        <div class="metrics" id="metrics">
+          <div><span class="m-value" data-live="frames">–</span><span class="m-label">images calculées</span></div>
+          <div><span class="m-value" data-live="idle">–</span><span class="m-label">du temps sans rendu</span></div>
+          <div><span class="m-value" data-live="calls">–</span><span class="m-label">appels de dessin par image</span></div>
+          <div><span class="m-value" data-live="dpr">–</span><span class="m-label">densité de pixels</span></div>
+        </div>
+      </section>
+
+      <section class="case-contact">
+        <p class="kicker">Leia Percherancier · Développeuse front-end 3D</p>
+        <h2>Un produit à lancer avec une page en 3D ?</h2>
+        <div class="contact-links">
+          <a class="btn btn-lg" href="https://www.malt.fr/profile/leiapercherancier" target="_blank" rel="noopener">Me contacter sur Malt</a>
+          <a class="link" href="#top">Revenir en haut</a>
+        </div>
+      </section>
+
+      <footer class="credits">
+        <p>Modèle 3D : « Chronograph Watch » par Eric Chadwick, Darmstadt Graphics Group, <a href="https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/ChronographWatch" target="_blank" rel="noopener">Khronos glTF Sample Assets</a>, licence <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. Logos d'origine retirés, cadran, fermoir et fond de boîte repeints, verre et éclairage refaits.</p>
+      </footer>
+    </main>
+
+    <dialog class="modal" id="order-dialog">
+      <form method="dialog" id="order-form">
+        <h3>Précommander l'Arête</h3>
+        <p class="modal-summary" id="order-summary"></p>
+        <label>Nom <input name="nom" autocomplete="name" required /></label>
+        <label>E-mail <input name="email" type="email" autocomplete="email" required /></label>
+        <p class="modal-note">Démonstration : rien n'est envoyé, aucune donnée n'est conservée.</p>
+        <div class="modal-actions">
+          <button type="button" class="link" id="order-cancel">Annuler</button>
+          <button class="btn">Réserver avec 50 € d'acompte</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  </body>
+</html>
