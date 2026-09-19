@@ -33,7 +33,7 @@ button { cursor: pointer; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 code { font-size: 0.92em; }
 /* chiffres à chasse fixe seulement là où ils changent ou s'alignent (sinon les virgules s'élargissent) */
-.clock, .order-price, .price-line, .m-value, .mini-specs dd { font-variant-numeric: tabular-nums; }
+.clock, .order-price strong, .price-line strong, .m-value, .mini-specs dd { font-variant-numeric: tabular-nums; }
 .skip { position: absolute; left: -999px; top: 8px; z-index: 60; background: var(--ink); color: var(--paper); padding: 8px 14px; }
 .skip:focus { left: 8px; }
 
